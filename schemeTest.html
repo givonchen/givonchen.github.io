@@ -73,7 +73,6 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 		if(/MQQBrowser|UCBrowser|360Browser|Firefox/i.test(ua)){
 			location.href=appScheme;
 		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast/i.test(ua)){
-			alert(1);
 			if(openApp.iframe){
 				openApp.iframe.src=appScheme;
 			}else{
