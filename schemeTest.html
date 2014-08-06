@@ -69,7 +69,7 @@ var openApp=function(appScheme,failCallback){
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
-				document.body.appendChild(iframe);
+				document.body.appendChild(openApp.iframe);
 			}
 		}else if(/Chrome/i.test(ua)){
 			var win=window.open(url,"_blank");
@@ -82,7 +82,7 @@ var openApp=function(appScheme,failCallback){
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
-				document.body.appendChild(iframe);
+				document.body.appendChild(openApp.iframe);
 			}
 		}
 	}else{//IOS
