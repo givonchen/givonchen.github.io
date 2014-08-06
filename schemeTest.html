@@ -79,7 +79,7 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
-				openApp.iframe.display="none";
+				openApp.iframe.style.display="none";
 				document.body.appendChild(openApp.iframe);
 			}
 		}else if(/Chrome/i.test(ua)){
@@ -93,7 +93,7 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
-				openApp.iframe.display="none";
+				openApp.iframe.style.display="none";
 				document.body.appendChild(openApp.iframe);
 			}
 		}
