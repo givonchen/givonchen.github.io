@@ -33,7 +33,7 @@ body{
 	border-radius: 4px;  
 	color: #fff;font-size: 16px;
 	text-align: center;
-	margin: 20px;
+	margin: 30px 20px;
 	display: block;
 }
 .content .loadQQ{
@@ -43,10 +43,19 @@ body{
     color: #146fdf;
 	border: 1px solid #9abbe3;
 }
+.content .tips{
+	text-align: center;
+	padding:5px;
+	border-radius: 5px;  
+	width:100%;
+	background:#F6F7BD;
+	display:none;
+}
 </style>
 </head>
 <body>
 	<div id="content" class="content">
+		<div id="tips" class="tips"></div>
 		<a href="javascript:void(0);" id="loadQQ" class="loadQQ">
 					打开手机QQ
 		</a>	
@@ -57,22 +66,24 @@ body{
 </body>
 <script type="text/javascript">
 
-var openApp=function(appScheme,failCallback){
+var openApp=function(appScheme,timeOutCallback,failCallback){
 	var timeout=3000;
 	var ua=navigator.userAgent
 	if(/android/i.test(ua)) {//android
 		if(/MQQBrowser|UCBrowser|360Browser|Firefox/i.test(ua)){
 			location.href=appScheme;
-		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast|/i.test(ua)){
+		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast/i.test(ua)){
+			alert(1);
 			if(openApp.iframe){
 				openApp.iframe.src=appScheme;
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
+				openApp.iframe.display="none";
 				document.body.appendChild(openApp.iframe);
 			}
 		}else if(/Chrome/i.test(ua)){
-			var win=window.open(url,"_blank");
+			var win=window.open(appScheme,"_blank");
 			setTimeout(function() {
 				win.close();
 			}, 0);
@@ -82,6 +93,7 @@ var openApp=function(appScheme,failCallback){
 			}else{
 				openApp.iframe=document.createElement("iframe");
 				openApp.iframe.src=appScheme;
+				openApp.iframe.display="none";
 				document.body.appendChild(openApp.iframe);
 			}
 		}
@@ -90,21 +102,32 @@ var openApp=function(appScheme,failCallback){
 	}
 	var startDate = new Date();
     window.setTimeout(function(){ 
+			timeOutCallback&&timeOutCallback();
             if(new Date() - startDate > timeout+200){//当作手动切换过来的
                 return;
             }else{
-				failCallback();//停留在当前页面，给出错误提示
+				failCallback&&failCallback();//停留在当前页面，给出错误提示
 			}			
         }, timeout);
 };
+var failCallback=function(msg){
+	var tips=document.getElementById("tips");
+	tips.innerHTML=msg;
+	tips.style.display="block";
+	 window.setTimeout(function(){ 
+	 tips.style.display="none";
+	 },10000);
+}
 var qqScheme="wtloginmqq://ptlogin/qlogin?p=http%3A%2F%2Fptlogin2.qq.com%2Fjump%3Fu1%3Dhttp%253A%252F%252Ftouch.m.qzone.com%252Finfocenter%253Fg_f%253D%26pt_report%3D1%26pt_ttype%3D1";
 var loadQQ=document.getElementById("loadQQ");
 var loadOther=document.getElementById("loadOther");
 loadQQ.addEventListener("click", function(e){
-	openApp(qqScheme,function(){alert("请确认手机上已经安装了手机QQ");})
+	loadQQ.innerHTML="努力打开中..."
+	openApp(qqScheme,function(){loadQQ.innerHTML="打开手机QQ";},function(){failCallback("请确认手机上已经安装了手机QQ");})
 }, false);
 loadOther.addEventListener("click", function(e){
-	openApp("no"+qqScheme,function(){alert("请确认手机上已经安装了该APP");})
+	loadOther.innerHTML="努力打开中..."
+	openApp("no"+qqScheme,function(){loadOther.innerHTML="打开未安装APP";},function(){failCallback("请确认手机上已经安装了该APP");})
 }, false);
 </script>
 </html>
