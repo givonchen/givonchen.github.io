@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta id="viewport" name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>手机端伪协议测试</title>
+<style type="text/css">
+
+	@charset "utf-8";
+body{
+	font-size: 16px;
+	background: #eee;
+}
+*{
+	padding:0;
+	margin:0;
+	list-style:none;
+	text-decoration: none;
+}
+.content{
+	margin:0 auto;
+	width: 320px;
+	height: 500px;
+	position: relative;
+	top:100px;
+}
+.content a{
+	width: 280px;
+	height: 44px;
+	line-height: 44px;  
+	background: #146fdf;border:none;
+	border-radius: 4px;  
+	color: #fff;font-size: 16px;
+	text-align: center;
+	margin: 20px;
+	display: block;
+}
+.content .loadQQ{
+}
+.content .loadOther{
+	background-color: #e7e7e7;
+    color: #146fdf;
+	border: 1px solid #9abbe3;
+}
+</style>
+</head>
+<body>
+	<div id="content" class="content">
+		<a href="javascript:void(0);" id="loadQQ" class="loadQQ">
+					打开手机QQ
+		</a>	
+		<a href="javascript:void(0);" id="loadOther" class="loadOther">
+					打开未安装APP
+		</a>
+</div>
+</body>
+<script type="text/javascript">
+
+var openApp=function(appScheme,failCallback){
+	var timeout=3000;
+	var ua=navigator.userAgent
+	if(/android/i.test(ua)) {//android
+		if(/MQQBrowser|UCBrowser|360Browser|Firefox/i.test(ua)){
+			location.href=appScheme;
+		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast|/i.test(ua)){
+			if(openApp.iframe){
+				openApp.iframe.src=appScheme;
+			}else{
+				openApp.iframe=document.createElement("iframe");
+				openApp.iframe.src=appScheme;
+				document.body.appendChild(iframe);
+			}
+		}else if(/Chrome/i.test(ua)){
+			var win=window.open(url,"_blank");
+			setTimeout(function() {
+				win.close();
+			}, 0);
+		}else{
+			if(openApp.iframe){
+				openApp.iframe.src=appScheme;
+			}else{
+				openApp.iframe=document.createElement("iframe");
+				openApp.iframe.src=appScheme;
+				document.body.appendChild(iframe);
+			}
+		}
+	}else{//IOS
+		location.href=appScheme;
+	}
+	var startDate = new Date();
+    window.setTimeout(function(){ 
+            if(new Date() - startDate > timeout+200){//当作手动切换过来的
+                return;
+            }else{
+				failCallback();//停留在当前页面，给出错误提示
+			}			
+        }, timeout);
+};
+var qqScheme="wtloginmqq://ptlogin/qlogin?p=http%3A%2F%2Fptlogin2.qq.com%2Fjump%3Fu1%3Dhttp%253A%252F%252Ftouch.m.qzone.com%252Finfocenter%253Fg_f%253D%26pt_report%3D1%26pt_ttype%3D1";
+var loadQQ=document.getElementById("loadQQ");
+var loadOther=document.getElementById("loadOther");
+loadQQ.addEventListener("click", function(e){
+	openApp(qqScheme,function(){alert("请确认手机上已经安装了手机QQ");})
+}, false);
+loadOther.addEventListener("click", function(e){
+	openApp("no"+qqScheme,function(){alert("请确认手机上已经安装了该APP");})
+}, false);
+</script>
+</html>
