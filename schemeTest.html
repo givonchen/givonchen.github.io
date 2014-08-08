@@ -90,8 +90,15 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 			}, 0);
 			openApp.flag="open";
 		}else{
-			location.href=appScheme;
-			openApp.flag="location";
+			if(openApp.iframe){
+				openApp.iframe.src=appScheme;
+			}else{
+				openApp.iframe=document.createElement("iframe");
+				openApp.iframe.src=appScheme;
+				openApp.iframe.style.display="none";
+				document.body.appendChild(openApp.iframe);
+			}
+			openApp.flag="iframe";
 		}
 	}else{//IOS
 		location.href=appScheme;
