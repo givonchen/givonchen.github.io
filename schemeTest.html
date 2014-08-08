@@ -72,7 +72,7 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 	if(/android/i.test(ua)) {//android
 		if(/MQQBrowser|UCBrowser|360Browser|Firefox/i.test(ua)){
 			location.href=appScheme;
-		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast|MiuiBrowser/i.test(ua)){
+		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast|XiaoMi\/MiuiBrowser/i.test(ua)){
 			if(openApp.iframe){
 				openApp.iframe.src=appScheme;
 			}else{
