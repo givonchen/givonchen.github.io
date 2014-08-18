@@ -70,10 +70,10 @@ var openApp=function(appScheme,timeOutCallback,failCallback){
 	var timeout=3000;
 	var ua=navigator.userAgent
 	if(/android/i.test(ua)) {//android
-		if(/MQQBrowser|UCBrowser|360Browser|Firefox/i.test(ua)){
+		if(/MQQBrowser|360Browser|Firefox|/i.test(ua)){
 			location.href=appScheme;
 			openApp.flag="location";
-		}else if(/baidubrowse|SogouMobileBrowser|LieBaoFast|XiaoMi\/MiuiBrowser/i.test(ua)){
+		}else if(/UCBrowser|baidubrowse|SogouMobileBrowser|LieBaoFast|XiaoMi\/MiuiBrowser/i.test(ua)){
 			if(openApp.iframe){
 				openApp.iframe.src=appScheme;
 			}else{
